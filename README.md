@@ -16,7 +16,7 @@ It was a Stock market prediction and i deployed it online via streamlit cloud. T
 <li>Conclusion </li>
 </ul>
 
-### Streamlit
+## Streamlit
 This folder contains the notebook for steps below
 
 <ul>
