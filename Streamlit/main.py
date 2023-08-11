@@ -1,28 +1,28 @@
+#importing the neccessaty libraries
 import streamlit as st
 import numpy as np
 import pandas as pd
 from pandas import read_csv
 from PIL import Image
-
-
 from sklearn.linear_model import LinearRegression, Ridge, RidgeCV, Lasso, LassoCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split, RepeatedKFold, GridSearchCV
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
+# setting the image
+image = Image.open('GRBT.png')
+st.image(image, caption='Gradient Boost Logo')
 
-# image = Image.open('GRBT.png')
-# st.image(image, caption='Gradient Boost Logo')
-
+#creating the title
 st.title("STOCK MARKET PREDITION PROJECT")
 st.write("""Explore diffrent stocks Open and Closing prices prediction for free! :+1:""")
 
+# sidebar to selection dataset and model options
 dataset = st.sidebar.selectbox("Select stock", ("NIO", "GOOGLE", "APPLE", "TESLA", "JUMIA"))
-
 Model = st.sidebar.selectbox("Select Regresion Model", ("Linear", "Ridge", "Lasso"))
 
 #Score = st.sidebar.selectbox("Select Evaluation Method", ("Model Score", "RMSE", "MAE"))
-
+# python fuction to map sidebar selection to code
 def get_dataset(dataset):
     if dataset == "NIO":
         url = 'https://drive.google.com/file/d/1kMYMOpsg4kId2FIR22KsVd_mOhgtHfDr/view?usp=sharing'
@@ -48,11 +48,12 @@ def get_dataset(dataset):
         url = "https://drive.google.com/file/d/1OchvWibWEu0aemA32POBeOCTcuBR9CWI/view?usp=sharing"
         path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
         data = pd.read_csv(path, index_col=0)
-
+# splitting dataset into features and variables
     X = data.loc[:, ~data.columns.isin(['Close', 'timestamp'])]
     y = data['Close']
     return X, y
 
+# getting dataset from function above into streamlit
 X, y = get_dataset(dataset)
 st.title(dataset)
 st.write("Here are the the independent columns", X.head())
@@ -60,6 +61,7 @@ st.write(X.shape)
 st.write("Here is the dependent columns", y.head())
 st.write(len(y))
 
+# defining hyperparams function
 def hyperparams(mdl_name):
     params = dict()
     if mdl_name == "Ridge":
@@ -74,7 +76,7 @@ def hyperparams(mdl_name):
 
 params = hyperparams(Model)
 
-
+# defining model function
 def get_model(mdl_name, params):
     if mdl_name == "Ridge":
         mdl = Ridge(normalize=True, alpha=params["R"])
@@ -99,13 +101,14 @@ test_list=[Model_Score, RMSE, MAE]
 best_test = sorted(test_list)[0]
 test_dict={"Model_Score":Model_Score, "RMSE":RMSE, "MAE":MAE}
 
+# conclusions
 st.header("Evaluations")
 st.subheader("Model Score")
 st.markdown("**model score** works by comparing our predicted output in y_test against the actual output in y_test and compute the diffrence as a **100% score** and we got a 99%")
 st.write("Here is the model score",Model_Score)
 
 st.subheader("RMSE")
-st.markdown("In order to understand how well our model works we are going to use a metric known as **RMSE**, in full this refers to the **Root Mean Square Error**. The RMSE will give us what is equivalent to the standard deviation of the unexplained variance by the model, measuring how concentrated the data is to our regression line.** The lower the value of the RMSE, the better the fit.**")
+st.markdown("In order to understand how well our model works we are going to use a metric known as **RMSE**, in full this refers to the **Root Mean Square Error**. The RMSE will give us what is equivalent to the standard deviation of the unexplained variance by the model, measuring how concentrated the data is to our regression line.**The lower the value of the RMSE, the better the fit.**")
 st.write("Here is the model RMSE", RMSE)
 
 st.subheader("MAE")
@@ -115,5 +118,5 @@ st.write("Here is the model MAE",MAE)
 # def evaluation(method, mdl):
 #     if method == "Model Score":
 
-st.header("conclusion")
-st.write("this is our best score for this model is", best_test)
+st.header("Conclusion")
+st.write("Our best score for this model is", best_test)
