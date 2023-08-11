@@ -13,4 +13,7 @@ It was a Stock market prediction and i deployed it online via streamlit cloud. T
  </li>
 </ul>
 
-
+### Next Steps
+<ul>
+<li>Connect streamlit app directly with yahoo finance API</li>
+</ul>
