@@ -10,8 +10,8 @@ from sklearn.model_selection import train_test_split, RepeatedKFold, GridSearchC
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # setting the image
-image = Image.open('GRBT.png')
-st.image(image, caption='Gradient Boost Logo')
+# image = Image.open('GRBT.png')
+# st.image(image, caption='Gradient Boost Logo')
 
 #creating the title
 st.title("STOCK MARKET PREDITION PROJECT")
